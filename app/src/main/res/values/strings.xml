@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Stargate DHD</string>
     <string name="fullscreen">Fullscreen</string>
+    <string name="address_earth">bZEjKcA</string>
 </resources>
