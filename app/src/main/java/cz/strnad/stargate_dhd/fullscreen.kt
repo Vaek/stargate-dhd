@@ -11,11 +11,14 @@ import android.view.WindowInsetsController
  */
 fun Activity.enableFullscreenImmersiveMode(onCanceled: () -> Unit = {}) {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-        window.insetsController?.run {
+        window.setDecorFitsSystemWindows(false)
+        window.insetsController?.apply {
             hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-            systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE
             addOnControllableInsetsChangedListener { _, _ ->
-                onCanceled()
+                if (window.decorView.rootWindowInsets.isVisible(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())) {
+                    onCanceled()
+                }
             }
         }
     } else {
