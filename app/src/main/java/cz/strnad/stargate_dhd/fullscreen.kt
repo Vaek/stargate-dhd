@@ -15,9 +15,16 @@ fun Activity.enableFullscreenImmersiveMode(onCanceled: () -> Unit = {}) {
         window.insetsController?.apply {
             hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE
-            addOnControllableInsetsChangedListener { _, _ ->
-                if (window.decorView.rootWindowInsets.isVisible(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())) {
+            
+            var prevHidden = false
+            addOnControllableInsetsChangedListener { controller, typeMask ->
+                val visible = window.decorView.rootWindowInsets.isVisible(WindowInsets.Type.statusBars() and WindowInsets.Type.navigationBars())
+                
+
+                if (visible && prevHidden) {
                     onCanceled()
+                } else {
+                    prevHidden = true
                 }
             }
         }
