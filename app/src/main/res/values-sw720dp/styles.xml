@@ -2,12 +2,12 @@
 <resources>
 
     <style name="GateDHD">
-        <item name="centerSize">230dp</item>
+        <item name="centerSize">232dp</item>
         <item name="innerCircleRadius">180dp</item>
         <item name="innerCircleWidth">74dp</item>
-        <item name="innerCircleHeight">114dp</item>
+        <item name="innerCircleHeight">120dp</item>
         <item name="outerCircleRadius">300dp</item>
-        <item name="outerCircleWidth">110dp</item>
+        <item name="outerCircleWidth">114dp</item>
         <item name="outerCircleHeight">120dp</item>
         <item name="textSize">16sp</item>
     </style>
