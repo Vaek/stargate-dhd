@@ -111,7 +111,7 @@ class GateDHDView @JvmOverloads constructor(
         id = ViewCompat.generateViewId()
         textSize = this@GateDHDView.textSize
         if (!isInEditMode) {
-            typeface = ResourcesCompat.getFont(context, R.font.stargate_sg1_adress_glyphs)
+            typeface = ResourcesCompat.getFont(context, R.font.stargate)
         }
         setBackgroundResource(backgroundResId)
         addView(this)

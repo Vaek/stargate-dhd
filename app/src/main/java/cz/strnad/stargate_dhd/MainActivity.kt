@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        scaleGesture = ScaleGesture(_binding.dhd)
+        //scaleGesture = ScaleGesture(_binding.dhd)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

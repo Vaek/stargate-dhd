@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="GateDHDView">
-        <attr name="centerSize" format="dimension"/>
-        <attr name="innerCircleRadius" format="dimension"/>
-        <attr name="innerCircleWidth" format="dimension"/>
-        <attr name="innerCircleHeight" format="dimension"/>
-        <attr name="outerCircleRadius" format="dimension"/>
-        <attr name="outerCircleWidth" format="dimension"/>
-        <attr name="outerCircleHeight" format="dimension"/>
-        <attr name="textSize" format="dimension"/>
+        <attr name="centerSize" format="dimension" />
+        <attr name="innerCircleRadius" format="dimension" />
+        <attr name="innerCircleWidth" format="dimension" />
+        <attr name="innerCircleHeight" format="dimension" />
+        <attr name="outerCircleRadius" format="dimension" />
+        <attr name="outerCircleWidth" format="dimension" />
+        <attr name="outerCircleHeight" format="dimension" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="DHDControllerView">
+        <attr name="dhdLayout" format="reference" />
     </declare-styleable>
 </resources>

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <cz.strnad.stargate_dhd.GateDHDView
-        android:id="@+id/dhd"
+    <cz.strnad.stargate_dhd.DHDControllerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/GateDHD"/>
+        app:dhdLayout="@layout/gate_dhd_layout" />
 </layout>
