@@ -5,6 +5,7 @@
     tools:context=".MainActivity">
 
     <cz.strnad.stargate_dhd.DHDControllerView
+        android:id="@+id/controller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:dhdLayout="@layout/gate_dhd_layout" />

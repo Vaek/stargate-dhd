@@ -11,4 +11,5 @@ object Versions {
     const val material = "1.3.0"
 
     const val junit = "4.+"
+    const val retrofit = "2.9.0"
 }

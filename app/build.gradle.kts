@@ -50,4 +50,9 @@ dependencies {
     testImplementation(Dependencies.Junit.junit)
     androidTestImplementation(Dependencies.AndroidX.ext)
     androidTestImplementation(Dependencies.AndroidX.espressoCore)
+    implementation(Dependencies.Retrofit.retrofit)
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
 }

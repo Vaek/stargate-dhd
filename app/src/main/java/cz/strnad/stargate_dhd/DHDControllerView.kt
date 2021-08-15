@@ -1,11 +1,11 @@
 package cz.strnad.stargate_dhd
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.use
 import androidx.core.view.children
@@ -22,11 +22,42 @@ class DHDControllerView @JvmOverloads constructor(
         it.length >= 6
     }
 
+    var dialListener: (String) -> Unit = {}
+
+    val isOpen get() = address.contains(GateDHDView.dialChar)
+
     private var address
         get() = _binding.address.text.toString()
         set(value) {
             _binding.address.text = value
+            dialListener(value)
         }
+
+    private val gateOpen by lazy {
+        MediaPlayer.create(context, R.raw.gate_open)
+    }
+    private val gateClose by lazy {
+        MediaPlayer.create(context, R.raw.gate_close)
+    }
+    private val dialFail by lazy {
+        MediaPlayer.create(context, R.raw.dial_fail)
+    }
+    private val wormholeLoop by lazy {
+        MediaPlayer.create(context, R.raw.wormhole_loop)
+    }
+    private val press
+        get() = MediaPlayer.create(
+            context,
+            listOf(
+                R.raw.press_1,
+                R.raw.press_2,
+                R.raw.press_3,
+                R.raw.press_4,
+                R.raw.press_5,
+                R.raw.press_6,
+                R.raw.press_7
+            ).random()
+        )
 
     init {
         _binding.address.setOnLongClickListener {
@@ -54,15 +85,28 @@ class DHDControllerView @JvmOverloads constructor(
 
     private fun setupDHDButton(button: Button) {
         button.setOnClickListener {
-            if (button.text.isNullOrBlank()) {
-                if (isAddressValid(address)) {
-                    Toast.makeText(context, "Fire", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show()
-                    address = ""
+            if (button.text == GateDHDView.dialChar) {
+                when {
+                    isOpen -> {
+                        wormholeLoop.stop()
+                        wormholeLoop.prepare()
+                        gateClose.start()
+                        address = ""
+                    }
+                    isAddressValid(address) -> {
+                        gateOpen.start()
+                        wormholeLoop.start()
+                        wormholeLoop.isLooping = true
+                        address += button.text
+                    }
+                    else -> {
+                        dialFail.start()
+                        address = ""
+                    }
                 }
             } else {
-                _binding.address.append(button.text)
+                press.start()
+                address += button.text
             }
         }
     }

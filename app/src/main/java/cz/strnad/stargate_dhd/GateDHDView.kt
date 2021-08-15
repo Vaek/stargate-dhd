@@ -15,6 +15,10 @@ class GateDHDView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    companion object {
+        const val dialChar = "!"
+    }
+
     private var centerSize: Int = 0
     private var textSize: Float = 0f
     private var innerCircleRadius: Int = 0
@@ -23,7 +27,8 @@ class GateDHDView @JvmOverloads constructor(
     private var outerCircleRadius: Int = 0
     private var outerCircleWidth: Int = 0
     private var outerCircleHeight: Int = 0
-    private val glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl"
+    private val glyphsInner = "ABCDEFGHIJKLMNOPQRS"
+    private val glyphsOuter = "TUVWXYZabcdefghijkl"
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.GateDHDView).use {
@@ -46,10 +51,8 @@ class GateDHDView @JvmOverloads constructor(
 
         val rotationStep = 360f / 19f
         val centerButton = createCenter()
-        val round1Buttons = glyphs.subSequence(0, glyphs.length / 2)
-            .mapIndexed { i, char -> createRound1(char) }
-        val round2Buttons = glyphs.subSequence(glyphs.length / 2, glyphs.length)
-            .mapIndexed { i, char -> createRound2(char) }
+        val round1Buttons = glyphsInner.mapIndexed { _, char -> createRound1(char) }
+        val round2Buttons = glyphsOuter.mapIndexed { _, char -> createRound2(char) }
 
         with(ConstraintSet()) {
             clone(this@GateDHDView)
@@ -82,7 +85,7 @@ class GateDHDView @JvmOverloads constructor(
     }
 
     private fun createCenter(): View = createButton(R.drawable.dhd_center).apply {
-        text = ""
+        text = dialChar
         layoutParams.apply {
             width = centerSize
             height = centerSize
@@ -110,6 +113,7 @@ class GateDHDView @JvmOverloads constructor(
     ) = AppCompatButton(context).apply {
         id = ViewCompat.generateViewId()
         textSize = this@GateDHDView.textSize
+        isAllCaps = false
         if (!isInEditMode) {
             typeface = ResourcesCompat.getFont(context, R.font.stargate)
         }

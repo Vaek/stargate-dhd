@@ -19,4 +19,8 @@ object Dependencies {
     object Junit {
         const val junit = "junit:junit:${Versions.junit}"
     }
+
+    object Retrofit {
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    }
 }
