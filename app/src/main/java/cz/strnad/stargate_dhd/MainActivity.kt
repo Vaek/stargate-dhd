@@ -37,10 +37,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         _binding.controller.dialListener = {
             launch(Dispatchers.IO) {
                 runCatching {
+                    val chevronCount = it.count { it != GateDHDView.dialChar }
+                    val showWave = it.contains(GateDHDView.dialChar)
                     gateService.light(
-                        "1".repeat(it.length) +
-                                "0".repeat(7 - it.length) +
-                                if (it.contains(GateDHDView.dialChar)) "1" else "0"
+                        "1".repeat(chevronCount) +
+                                "0".repeat(7 - chevronCount) +
+                                if (showWave) "1" else "0"
                     )
                 }.onFailure { it.printStackTrace() }
             }

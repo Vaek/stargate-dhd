@@ -16,7 +16,7 @@ class GateDHDView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        const val dialChar = "!"
+        const val dialChar = '!'
     }
 
     private var centerSize: Int = 0
@@ -85,7 +85,7 @@ class GateDHDView @JvmOverloads constructor(
     }
 
     private fun createCenter(): View = createButton(R.drawable.dhd_center).apply {
-        text = dialChar
+        text = dialChar.toString()
         layoutParams.apply {
             width = centerSize
             height = centerSize

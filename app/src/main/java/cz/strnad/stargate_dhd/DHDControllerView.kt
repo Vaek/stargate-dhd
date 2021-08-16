@@ -85,7 +85,7 @@ class DHDControllerView @JvmOverloads constructor(
 
     private fun setupDHDButton(button: Button) {
         button.setOnClickListener {
-            if (button.text == GateDHDView.dialChar) {
+            if (button.text.contains(GateDHDView.dialChar)) {
                 when {
                     isOpen -> {
                         wormholeLoop.stop()
