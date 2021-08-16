@@ -37,6 +37,13 @@
 #include <uri/UriBraces.h>
 #include <uri/UriRegex.h>
 
+#include <FastLED.h>
+#define NUM_LEDS 90
+#define DATA_PIN D1
+#define LED_TYPE    WS2812
+#define COLOR_ORDER GRB
+CRGB leds[NUM_LEDS];
+
 #ifndef APSSID
 #define APSSID "ESPap"
 #define APPSK  "thereisnospoon"
@@ -46,10 +53,10 @@
 const char *ssid = APSSID;
 const char *password = APPSK;
 
-// Red, green, and blue pins for PWM control
-const int redPin = 13;     // 13 corresponds to GPIO13
-const int greenPin = 12;   // 12 corresponds to GPIO12
-const int bluePin = 14;    // 14 corresponds to GPIO14
+const String onState = "1";
+const String offState = "0";
+String settedPattern = "00000000";
+int waveIndex = 0;
 
 ESP8266WebServer server(80);
 
@@ -57,10 +64,15 @@ ESP8266WebServer server(80);
    connected to this access point to see it.
 */
 void light(String pattern) {
+  settedPattern = pattern;
   Serial.println("Lighting: '" + pattern + "'");
 }
 
 void setup() {
+  // limit my draw to 1A at 5v of power draw
+  FastLED.setMaxPowerInVoltsAndMilliamps(5,1000);
+  FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  
   delay(1000);
   Serial.begin(115200);
   Serial.println();
@@ -88,4 +100,64 @@ void setup() {
 
 void loop() {
   server.handleClient();
+
+  if (settedPattern.substring(0, 1) == onState) {
+    leds[0] = CRGB::White;
+  } else {
+    leds[0] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(1, 2) == onState) {
+    leds[1] = CRGB::White;
+  } else {
+    leds[1] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(2, 3) == onState) {
+    leds[2] = CRGB::White;
+  } else {
+    leds[2] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(3, 4) == onState) {
+    leds[3] = CRGB::White;
+  } else {
+    leds[3] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(4, 5) == onState) {
+    leds[4] = CRGB::White;
+  } else {
+    leds[4] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(5, 6) == onState) {
+    leds[5] = CRGB::White;
+  } else {
+    leds[5] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(6, 7) == onState) {
+    leds[6] = CRGB::White;
+  } else {
+    leds[6] = CRGB::Black;
+  }
+  
+  if (settedPattern.substring(7, 8) == onState) {
+    for (int index = 7; index < NUM_LEDS; index++) {
+      if (index == waveIndex) {
+        leds[index] = CRGB::Blue;
+      } else {
+        leds[index] = CRGB::Black;
+      }
+    }
+    waveIndex = (waveIndex + 1) % NUM_LEDS;
+  } else {
+    for (int index = 7; index < NUM_LEDS; index++) {
+      leds[index] = CRGB::Black;
+    }
+  }
+
+  FastLED.show();
+  delay(50);
 }
