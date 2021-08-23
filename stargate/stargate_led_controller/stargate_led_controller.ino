@@ -38,11 +38,17 @@
 #include <uri/UriRegex.h>
 
 #include <FastLED.h>
-#define NUM_LEDS 90
-#define DATA_PIN D1
+#define NUM_LEDS_LEFT 12
+#define NUM_LEDS_RIGHT 12
+#define NUM_LEDS_CENTER 4
+#define DATA_PIN_LEFT D1
+#define DATA_PIN_RIGHT D6
+#define DATA_PIN_CENTER D7
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
-CRGB leds[NUM_LEDS];
+CRGB ledsLeft[NUM_LEDS_LEFT];
+CRGB ledsRight[NUM_LEDS_RIGHT];
+CRGB ledsCenter[NUM_LEDS_CENTER];
 
 #ifndef APSSID
 #define APSSID "ESPap"
@@ -71,7 +77,9 @@ void light(String pattern) {
 void setup() {
   // limit my draw to 1A at 5v of power draw
   FastLED.setMaxPowerInVoltsAndMilliamps(5,1000);
-  FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_LEFT, COLOR_ORDER>(ledsLeft, NUM_LEDS_LEFT);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_RIGHT, COLOR_ORDER>(ledsRight, NUM_LEDS_RIGHT);
+  FastLED.addLeds<LED_TYPE, DATA_PIN_CENTER, COLOR_ORDER>(ledsCenter, NUM_LEDS_CENTER);
   
   delay(1000);
   Serial.begin(115200);
@@ -102,47 +110,75 @@ void loop() {
   server.handleClient();
 
   if (settedPattern.substring(0, 1) == onState) {
-    leds[0] = CRGB::White;
+    for (int i = 8; i < 12; i++) {
+      ledsLeft[i] = CRGB::Red;
+    }
   } else {
-    leds[0] = CRGB::Black;
+    for (int i = 8; i < 12; i++) {
+      ledsLeft[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(1, 2) == onState) {
-    leds[1] = CRGB::White;
+    for (int i = 4; i < 8; i++) {
+      ledsLeft[i] = CRGB::Red;
+    }
   } else {
-    leds[1] = CRGB::Black;
+    for (int i = 4; i < 8; i++) {
+      ledsLeft[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(2, 3) == onState) {
-    leds[2] = CRGB::White;
+    for (int i = 0; i < 4; i++) {
+      ledsLeft[i] = CRGB::Red;
+    }
   } else {
-    leds[2] = CRGB::Black;
+    for (int i = 0; i < 4; i++) {
+      ledsLeft[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(3, 4) == onState) {
-    leds[3] = CRGB::White;
+    for (int i = 0; i < 4; i++) {
+      ledsCenter[i] = CRGB::Red;
+    }
   } else {
-    leds[3] = CRGB::Black;
+    for (int i = 0; i < 4; i++) {
+      ledsCenter[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(4, 5) == onState) {
-    leds[4] = CRGB::White;
+    for (int i = 0; i < 4; i++) {
+      ledsRight[i] = CRGB::Red;
+    }
   } else {
-    leds[4] = CRGB::Black;
+    for (int i = 0; i < 4; i++) {
+      ledsRight[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(5, 6) == onState) {
-    leds[5] = CRGB::White;
+    for (int i = 4; i < 8; i++) {
+      ledsRight[i] = CRGB::Red;
+    }
   } else {
-    leds[5] = CRGB::Black;
+    for (int i = 4; i < 8; i++) {
+      ledsRight[i] = CRGB::Black;
+    }
   }
   
   if (settedPattern.substring(6, 7) == onState) {
-    leds[6] = CRGB::White;
+    for (int i = 8; i < 12; i++) {
+      ledsRight[i] = CRGB::Red;
+    }
   } else {
-    leds[6] = CRGB::Black;
+    for (int i = 8; i < 12; i++) {
+      ledsRight[i] = CRGB::Black;
+    }
   }
-  
+/*  
   if (settedPattern.substring(7, 8) == onState) {
     for (int index = 7; index < NUM_LEDS; index++) {
       if (index == waveIndex) {
@@ -157,7 +193,7 @@ void loop() {
       leds[index] = CRGB::Black;
     }
   }
-
+*/
   FastLED.show();
   delay(50);
 }
