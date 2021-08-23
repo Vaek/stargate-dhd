@@ -11,4 +11,8 @@
         <item name="outerCircleHeight">62dp</item>
         <item name="textSize">7sp</item>
     </style>
+
+    <style name="DialAddressText">
+        <item name="android:textSize">30sp</item>
+    </style>
 </resources>

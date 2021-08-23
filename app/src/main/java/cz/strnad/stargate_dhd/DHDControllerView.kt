@@ -4,7 +4,10 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.use
@@ -18,8 +21,17 @@ class DHDControllerView @JvmOverloads constructor(
     private var _binding: ControllerLayoutBinding =
         ControllerLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
-    var isAddressValid: (String) -> Boolean = {
-        it.length >= 6
+    var selectedPlanets = EARTH to ABYDOS
+        set(value) {
+            field = value
+            _binding.addressHint.text = requiredAddress
+        }
+    private val requiredAddress
+        get() = selectedPlanets.let { (from, to) ->
+            to.address + from.homeSymbol
+        }
+    var isAddressValid: (String) -> Boolean = { address ->
+        address.startsWith(requiredAddress)
     }
 
     var dialListener: (String) -> Unit = {}
@@ -79,6 +91,44 @@ class DHDControllerView @JvmOverloads constructor(
                 setupDHDButton(child)
             } else if (child is ViewGroup) {
                 children.addAll(child.children)
+            }
+        }
+        _binding.fromPlanet.apply {
+            adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, planets)
+            setSelection(planets.indexOf(selectedPlanets.first))
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedPlanets = planets[position] to selectedPlanets.second
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+        }
+        _binding.toPlanet.apply {
+            adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, planets)
+            setSelection(planets.indexOf(selectedPlanets.second))
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedPlanets = selectedPlanets.first to planets[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
             }
         }
     }

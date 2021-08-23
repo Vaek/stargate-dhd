@@ -2,14 +2,15 @@ package cz.strnad.stargate_dhd
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
+import cz.strnad.stargate_dhd.databinding.ButtonLayoutBinding
 
 class GateDHDView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -110,13 +111,9 @@ class GateDHDView @JvmOverloads constructor(
 
     private fun createButton(
         @DrawableRes backgroundResId: Int
-    ) = AppCompatButton(context).apply {
+    ) = (ButtonLayoutBinding.inflate(LayoutInflater.from(context)).root as AppCompatButton).apply {
         id = ViewCompat.generateViewId()
         textSize = this@GateDHDView.textSize
-        isAllCaps = false
-        if (!isInEditMode) {
-            typeface = ResourcesCompat.getFont(context, R.font.stargate)
-        }
         setBackgroundResource(backgroundResId)
         addView(this)
     }

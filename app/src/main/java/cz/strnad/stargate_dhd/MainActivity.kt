@@ -1,10 +1,10 @@
 package cz.strnad.stargate_dhd
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnAttach
-import androidx.core.view.doOnDetach
 import androidx.databinding.DataBindingUtil
 import cz.strnad.stargate_dhd.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
-    private lateinit var scaleGesture: ScaleGestureDetector.SimpleOnScaleGestureListener
     private lateinit var _binding: ActivityMainBinding
     private val gateService by lazy {
         Retrofit.Builder()
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 }.onFailure { it.printStackTrace() }
             }
         }
-        //scaleGesture = ScaleGesture(_binding.dhd)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -65,22 +63,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    fun ScaleGesture(view: View) = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-
-        init {
-            val detector = ScaleGestureDetector(view.context, this)
-            view.doOnAttach { view.setOnTouchListener { _, event -> detector.onTouchEvent(event) } }
-            view.doOnDetach { view.setOnTouchListener(null) }
-        }
-
-        override fun onScale(detector: ScaleGestureDetector): Boolean {
-            view.scaleX *= detector.scaleFactor
-            view.scaleY *= detector.scaleFactor
-            view.invalidate()
-            return true
         }
     }
 }
